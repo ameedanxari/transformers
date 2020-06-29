@@ -8,8 +8,23 @@
 
 import Foundation
 
+//{
+//    "courage":5,
+//    "endurance":5,
+//    "firepower":5,
+//    "id":"-MAyx_zJYh__d9brBWW9",
+//    "intelligence":5,
+//    "name":"Optimus Prime",
+//    "rank":5,
+//    "skill":5,
+//    "speed":5,
+//    "strength":5,
+//    "team":"A",
+//    "team_icon":"https://tfwiki.net/mediawiki/images2/archive/f/fe/20110410191732%21Symbol_autobot_reg.png"
+//}
+
 struct Transformer: Codable {
-    var id: Int
+    var id: String
     var courage: Int
     var endurance: Int
     var firepower: Int
@@ -20,7 +35,7 @@ struct Transformer: Codable {
     var speed: Int
     var strength: Int
     var team: String
-    var teamIcon: String
+    var team_icon: String
     
     func toDictionary() -> [String:Any]
     {
@@ -37,8 +52,16 @@ struct Transformer: Codable {
         dictionary["speed"] = speed
         dictionary["strength"] = strength
         dictionary["team"] = team
-        dictionary["team_icon"] = teamIcon
+        dictionary["team_icon"] = team_icon
         
         return dictionary
+    }
+    
+    func getOverallRating() -> Int {
+        return strength +
+        intelligence +
+        speed +
+        endurance +
+        firepower
     }
 }

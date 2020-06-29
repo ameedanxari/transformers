@@ -24,19 +24,27 @@ class ServerManager {
     
     private func performRequest(method: String,
                                endpoint: String,
-                               params: [String: Any] = [:],
+                               params: [String: Any]? = nil,
                                completion: @escaping (Error?, URLResponse?, Data?) -> Void ) {
         
         let url = "\(API.BASE_URL)\(endpoint)"
         var request = URLRequest(url: URL(string: url)! , cachePolicy: .useProtocolCachePolicy, timeoutInterval: API.TIMEOUT_INTERVAL)
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")  // the request is JSON
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Accept")
         request.httpMethod = method
+        if let params = params {
+            request.httpBody = try? JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+        }
         
         if endpoint != API.allSpark {
+            if Global.DEBUG {
+                print("Headers: \(String(describing: UtilManager.shared.getCachedHeader()))")
+            }
             request.allHTTPHeaderFields = UtilManager.shared.getCachedHeader()
         }
         
         if Global.DEBUG {
-            print("\(method) Request \(endpoint) with Params \(params)")
+            print("\(method) Request \(endpoint) with Params \(String(describing: params))")
         }
         
         let session = URLSession.shared
@@ -67,8 +75,8 @@ class ServerManager {
         performRequest(method: "GET", endpoint: API.transformers) { (error, response, data) in
             if response?.getStatusCode() == 200,
                 let data = data,
-                let transformers = try? JSONDecoder().decode([Transformer].self, from: data) {
-                completion(transformers, error)
+                let transformers = try? JSONDecoder().decode(Transformers.self, from: data) {
+                completion(transformers.transformers, error)
             } else {
                 completion(nil, error)
             }
@@ -81,8 +89,8 @@ class ServerManager {
                        params: transformer.toDictionary()) { (error, response, data) in
             if response?.getStatusCode() == 201,
                 let data = data,
-                let transformers = try? JSONDecoder().decode(Transformer.self, from: data) {
-                completion(transformers, error)
+                let transformer = try? JSONDecoder().decode(Transformer.self, from: data) {
+                completion(transformer, error)
             } else {
                 completion(nil, error)
             }
@@ -90,22 +98,22 @@ class ServerManager {
     }
     
     func updateTransformer(_ transformer: Transformer, completion: @escaping (Transformer?, Error?) -> Void) {
-        let endpoint = "\(API.transformers)/\(transformer.id)"
+        let endpoint = "\(API.transformers)"
         
         performRequest(method: "PUT",
                        endpoint: endpoint,
                        params: transformer.toDictionary()) { (error, response, data) in
             if response?.getStatusCode() == 200,
                 let data = data,
-                let transformers = try? JSONDecoder().decode(Transformer.self, from: data) {
-                completion(transformers, error)
+                let transformer = try? JSONDecoder().decode(Transformer.self, from: data) {
+                completion(transformer, error)
             } else {
                 completion(nil, error)
             }
         }
     }
     
-    func deleteTransformer(_ transformer: Transformer, completion: @escaping (Transformer?, Error?) -> Void) {
+    func deleteTransformer(_ transformer: Transformer, completion: @escaping ([Transformer]?, Error?) -> Void) {
         let endpoint = "\(API.transformers)/\(transformer.id)"
         
         performRequest(method: "DELETE",
@@ -113,8 +121,8 @@ class ServerManager {
                        params: transformer.toDictionary()) { (error, response, data) in
             if response?.getStatusCode() == 204,
                 let data = data,
-                let transformers = try? JSONDecoder().decode(Transformer.self, from: data) {
-                completion(transformers, error)
+                let transformers = try? JSONDecoder().decode(Transformers.self, from: data) {
+                completion(transformers.transformers, error)
             } else if response?.getStatusCode() == 401 {
                 completion(nil, error)
             } else {

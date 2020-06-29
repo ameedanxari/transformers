@@ -12,9 +12,8 @@ class UtilManager {
 public static let shared = UtilManager()
     
     public func saveToken(_ token: String) {
-        let userDef = UserDefaults.standard
-        userDef.set(token, forKey: Global.TOKEN_PREF)
-        userDef.synchronize()
+        UserDefaults.standard.set(token, forKey: Global.TOKEN_PREF)
+        UserDefaults.standard.synchronize()
     }
     
     public func getToken() -> String? {
@@ -27,5 +26,29 @@ public static let shared = UtilManager()
         }
         
         return  ["Authorization": "Bearer \(token)", "Content-Type": "application/json"]
+    }
+    
+    public func saveTransformers(_ transformers: [Transformer]) {
+        let encodedData = try? JSONEncoder().encode(transformers)
+        UserDefaults.standard.set(encodedData, forKey: Global.TRANSFORMERS_PREF)
+        UserDefaults.standard.synchronize()
+    }
+    
+    public func addTransformer(_ transformer: Transformer) {
+        var transformers = getCachedTransformers()
+        transformers.append(transformer)
+        saveTransformers(transformers)
+    }
+    
+    public func updateTransformer(_ transformer: Transformer) {
+        var transformers = getCachedTransformers()
+        if let row = transformers.firstIndex(where: {$0.id == transformer.id}) {
+               transformers[row] = transformer
+        }
+        saveTransformers(transformers)
+    }
+    
+    public func getCachedTransformers() -> [Transformer] {
+        return (try? JSONDecoder().decode([Transformer].self, from: (UserDefaults.standard.object(forKey: Global.TRANSFORMERS_PREF) as? Data) ?? Data())) ?? []
     }
 }
