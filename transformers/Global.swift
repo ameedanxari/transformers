@@ -7,3 +7,8 @@
 //
 
 import Foundation
+
+struct Global {
+    static let TOKEN_PREF = "token"
+    static let DEBUG = true
+}
