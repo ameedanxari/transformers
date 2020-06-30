@@ -10,12 +10,13 @@ import UIKit
 
 extension UIImageView {
     func setCustomImage(_ imgURLString: String?) {
-        guard let imageURLString = imgURLString else {
-            self.image = UIImage(named: "AppIcon")
-            return
+        guard let imageURLString = imgURLString,
+            let imageURL = URL(string: imageURLString) else {
+                self.image = UIImage(named: "AppIcon")
+                return
         }
         DispatchQueue.global().async { [weak self] in
-            let data = try? Data(contentsOf: URL(string: imageURLString)!)
+            let data = try? Data(contentsOf: imageURL)
             DispatchQueue.main.async {
                 self?.image = data != nil ? UIImage(data: data!) : UIImage(named: "AppIcon")
             }

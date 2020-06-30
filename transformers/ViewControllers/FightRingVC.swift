@@ -18,7 +18,11 @@ class FightRingVC: UIViewController {
     @IBOutlet weak var lblSurvivors: UILabel!
     @IBOutlet weak var tblResults: UITableView!
     
-    var transformers: [Transformer] = []
+    var transformers: [Transformer] = [] {
+        didSet {
+           setupTeams()
+        }
+    }
     var teamA: [Transformer] = []
     var teamD: [Transformer] = []
     var resultsArray: [MatchResults] = []
@@ -31,10 +35,12 @@ class FightRingVC: UIViewController {
         setupTeamPickers()
     }
     
-    private func setupTeamPickers() {
+    private func setupTeams() {
         teamA = transformers.filter{$0.team == "A"}.sorted{$0.getOverallRating() > $1.getOverallRating()}
         teamD = transformers.filter{$0.team == "D"}.sorted{$0.getOverallRating() > $1.getOverallRating()}
-        
+    }
+    
+    private func setupTeamPickers() {
         pickerTeamA.reloadAllComponents()
         pickerTeamD.reloadAllComponents()
     }
@@ -53,15 +59,15 @@ class FightRingVC: UIViewController {
         let fights = getMaxFightCount()
         
         for i in 0..<fights {
-            pickerTeamA.selectRow(i, inComponent: 0, animated: true)
-            pickerTeamD.selectRow(i, inComponent: 0, animated: true)
+            pickerTeamA?.selectRow(i, inComponent: 0, animated: true)
+            pickerTeamD?.selectRow(i, inComponent: 0, animated: true)
             
-            lblWinnerName.text = "\(i+1)"
-            lblStatus.text = "Battle"
+            lblWinnerName?.text = "\(i+1)"
+            lblStatus?.text = "Battle"
             
             if let matchResult = initiateFightBetween(autobot: teamA[i], decepticon: teamD[i]) {
                 resultsArray.append(matchResult)
-                tblResults.reloadData()
+                tblResults?.reloadData()
             } else {
                 return totalAnnihilation()
             }
@@ -70,7 +76,7 @@ class FightRingVC: UIViewController {
         return getBattleStats()
     }
     
-    private func getMaxFightCount() -> Int {
+    func getMaxFightCount() -> Int {
         return teamA.count > teamD.count ? teamD.count : teamA.count
     }
     
@@ -99,11 +105,11 @@ class FightRingVC: UIViewController {
         }
         
         //If any fighter is down 4 or more points of courage and 3 or more points of strength compared to their opponent, the opponent automatically wins the face-off regardless of overall rating (opponent has ran away)
-        if autobot.courage - decepticon.courage >= 4 ||
+        if autobot.courage - decepticon.courage >= 4 &&
             autobot.strength - decepticon.strength >= 3 {
             return MatchResults(autobot: autobot, decepticon: decepticon, isAutobotWinner: true)
         }
-        if decepticon.courage - autobot.courage >= 4 ||
+        if decepticon.courage - autobot.courage >= 4 &&
             decepticon.strength - autobot.strength >= 3 {
             return MatchResults(autobot: autobot, decepticon: decepticon, isAutobotWinner: false)
         }
@@ -175,11 +181,15 @@ class FightRingVC: UIViewController {
             }
         }
         
-        
         autobotSurvivors = String(autobotSurvivors.dropFirst(2))
         decepticonSurvivors = String(decepticonSurvivors.dropFirst(2))
         
-        if autobotWins > decepticonWins {
+        if teamA.count == 0 || teamD.count == 0 {
+            return BattleStats(autobotWins: autobotWins,
+                    decepticonWins: decepticonWins,
+                    survivorsText: "Autobot Survivors: \(autobotSurvivors)\nDecepticon Survivors: \(decepticonSurvivors)",
+            resultTitle: "NO OPPONENTS")
+        } else if autobotWins > decepticonWins {
             return BattleStats(autobotWins: autobotWins,
                         decepticonWins: decepticonWins,
                         survivorsText: "Winning team (Autobots): \(autobotSurvivors)\nSurvivors from the losing team (Decepticons): \(decepticonSurvivors)",
