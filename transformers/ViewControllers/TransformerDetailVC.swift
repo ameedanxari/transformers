@@ -74,8 +74,11 @@ class TransformerDetailVC: UIViewController {
     }
     
     private func validateTransformer() -> Bool {
-        //TODO:- add checks and show alerts
-        return true
+        if let name = txtName.text, !name.isEmpty {
+            return true
+        }
+        UtilManager.shared.showAlert(msg: "Please enter name of transformer")
+        return false
     }
     
     private func createTransformer() {
@@ -93,20 +96,19 @@ class TransformerDetailVC: UIViewController {
                                    team_icon: "")
         
         guard let transformer = transformer else {
-            //TODO:- notify user of error
+            UtilManager.shared.showAlert(msg: "Unable to create transformer. Check inputs.")
             return
         }
         
         ServerManager.shared.createTransformer(transformer) { (transformer, error) in
             if let transformer = transformer {
-                //TODO:- save transformer and update UI
                 UtilManager.shared.addTransformer(transformer)
                 NotificationCenter.default.post(name: Global.TRANSFORMERS_CHANGED, object: nil)
                 DispatchQueue.main.async {
                     self.navigationController?.popViewController(animated: true)
                 }
             } else {
-                //TODO: - handle error scenario
+                UtilManager.shared.showAlert(msg: "Unable to create transformer. Please try later.")
             }
         }
     }
@@ -124,20 +126,19 @@ class TransformerDetailVC: UIViewController {
         transformer?.team = sgmtTeam.selectedSegmentIndex == 0 ? "A" : "D"
         
         guard let transformer = transformer else {
-            //TODO:- notify user of error
+            UtilManager.shared.showAlert(msg: "Unable to update transformer. Please check inputs.")
             return
         }
         
         ServerManager.shared.updateTransformer(transformer) { (transformer, error) in
             if let transformer = transformer {
-                //TODO:- save transformer and update UI
                 UtilManager.shared.updateTransformer(transformer)
                 NotificationCenter.default.post(name: Global.TRANSFORMERS_CHANGED, object: nil)
                 DispatchQueue.main.async {
                     self.navigationController?.popViewController(animated: true)
                 }
             } else {
-                //TODO: - handle error scenario
+                UtilManager.shared.showAlert(msg: "Unable to update transformer. Please try later.")
             }
         }
     }

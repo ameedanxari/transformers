@@ -6,10 +6,10 @@
 //  Copyright © 2020 aequilibrium. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class UtilManager {
-public static let shared = UtilManager()
+    public static let shared = UtilManager()
     
     public func saveToken(_ token: String) {
         UserDefaults.standard.set(token, forKey: Global.TOKEN_PREF)
@@ -19,7 +19,7 @@ public static let shared = UtilManager()
     public func getToken() -> String? {
         return UserDefaults.standard.string(forKey: Global.TOKEN_PREF)
     }
-
+    
     public func getCachedHeader() -> [String:String]? {
         guard let token = getToken() else {
             return nil
@@ -43,12 +43,24 @@ public static let shared = UtilManager()
     public func updateTransformer(_ transformer: Transformer) {
         var transformers = getCachedTransformers()
         if let row = transformers.firstIndex(where: {$0.id == transformer.id}) {
-               transformers[row] = transformer
+            transformers[row] = transformer
         }
         saveTransformers(transformers)
     }
     
     public func getCachedTransformers() -> [Transformer] {
         return (try? JSONDecoder().decode([Transformer].self, from: (UserDefaults.standard.object(forKey: Global.TRANSFORMERS_PREF) as? Data) ?? Data())) ?? []
+    }
+    
+    public func showAlert(msg: String)
+    {
+        let alert = UIAlertController(title: "", message: msg, preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+        
+        if let vc = UIApplication.getTopViewController() {
+            DispatchQueue.main.async {
+                vc.present(alert, animated: true, completion: nil)
+            }
+        }
     }
 }

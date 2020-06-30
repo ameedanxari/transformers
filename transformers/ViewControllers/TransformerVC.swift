@@ -41,7 +41,7 @@ class TransformerVC: UIViewController {
                     
                     self.getTransformers()
                 } else {
-                    //TODO: - handle error scenario
+                    UtilManager.shared.showAlert(msg: "AllSpark is inaccessible. Functionality will be limited.")
                 }
             }
         }
@@ -57,8 +57,6 @@ class TransformerVC: UIViewController {
                 }
                 
                 strongSelf.reloadData()
-            } else {
-                //TODO: - handle error scenario
             }
         }
     }
@@ -127,7 +125,7 @@ extension TransformerVC: UITableViewDataSource {
                         strongSelf.tblTransformers.deleteRows(at: [indexPath], with: .automatic)
                     }
                 } else {
-                    //TODO: - handle error scenario
+                    UtilManager.shared.showAlert(msg: "Unable to delete transformer. Please try again later.")
                 }
             }
         }

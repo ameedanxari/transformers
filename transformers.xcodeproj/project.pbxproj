@@ -12,6 +12,7 @@
 		E27BF52324A9DCF70050813E /* UIButtonRounded.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27BF52224A9DCF70050813E /* UIButtonRounded.swift */; };
 		E27BF52524A9DE3F0050813E /* FightResultTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27BF52424A9DE3F0050813E /* FightResultTVCell.swift */; };
 		E27BF52724A9DE800050813E /* MatchResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27BF52624A9DE800050813E /* MatchResults.swift */; };
+		E27BF52924AB1B430050813E /* UIApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27BF52824AB1B430050813E /* UIApplication+Extension.swift */; };
 		E2F4307024A9B6F60085DBDF /* TransformerDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F4306F24A9B6F60085DBDF /* TransformerDetailVC.swift */; };
 		E2F4307224A9BC640085DBDF /* ViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F4307124A9BC640085DBDF /* ViewController+Extension.swift */; };
 		E2F4307424A9C4400085DBDF /* FightRingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F4307324A9C4400085DBDF /* FightRingVC.swift */; };
@@ -53,6 +54,7 @@
 		E27BF52224A9DCF70050813E /* UIButtonRounded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButtonRounded.swift; sourceTree = "<group>"; };
 		E27BF52424A9DE3F0050813E /* FightResultTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightResultTVCell.swift; sourceTree = "<group>"; };
 		E27BF52624A9DE800050813E /* MatchResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchResults.swift; sourceTree = "<group>"; };
+		E27BF52824AB1B430050813E /* UIApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extension.swift"; sourceTree = "<group>"; };
 		E2F4306F24A9B6F60085DBDF /* TransformerDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransformerDetailVC.swift; sourceTree = "<group>"; };
 		E2F4307124A9BC640085DBDF /* ViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Extension.swift"; sourceTree = "<group>"; };
 		E2F4307324A9C4400085DBDF /* FightRingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightRingVC.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				E2FF455A24A9995D00F8FFE7 /* URLResponse+Extension.swift */,
 				E2F4307124A9BC640085DBDF /* ViewController+Extension.swift */,
 				E27BF51F24A9D3F70050813E /* UIImageView+Extension.swift */,
+				E27BF52824AB1B430050813E /* UIApplication+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 			files = (
 				E2F4307424A9C4400085DBDF /* FightRingVC.swift in Sources */,
 				E2FF455B24A9995D00F8FFE7 /* URLResponse+Extension.swift in Sources */,
+				E27BF52924AB1B430050813E /* UIApplication+Extension.swift in Sources */,
 				E27BF52024A9D3F70050813E /* UIImageView+Extension.swift in Sources */,
 				E2FF454C24A98DFF00F8FFE7 /* ServerManager.swift in Sources */,
 				E2FF451E24A98CCD00F8FFE7 /* TransformerVC.swift in Sources */,
