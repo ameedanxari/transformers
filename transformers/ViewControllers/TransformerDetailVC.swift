@@ -54,22 +54,22 @@ class TransformerDetailVC: UIViewController {
         } else {
             sgmtTeam.selectedSegmentIndex = 1
         }
-//        sldStrength.value = Float(transformer.strength)
-//        lblStrength.text = "Strength (\(transformer.strength))"
-//        sldIntelligence.value = Float(transformer.intelligence)
-//        lblIntelligence.text = "Intelligence (\(transformer.intelligence))"
-//        sldSpeed.value = Float(transformer.speed)
-//        lblSpeed.text = "Speed (\(transformer.speed))"
-//        sldEndurance.value = Float(transformer.endurance)
-//        lblEndurance.text = "Endurance (\(transformer.endurance))"
-//        sldRank.value = Float(transformer.rank)
-//        lblRank.text = "Rank (\(transformer.rank))"
-//        sldCourage.value = Float(transformer.courage)
-//        lblCourage.text = "Courage (\(transformer.courage))"
-//        sldFirepower.value = Float(transformer.firepower)
-//        lblFirepower.text = "Firepower (\(transformer.firepower))"
-//        sldSkill.value = Float(transformer.skill)
-//        lblSkill.text = "Skill (\(transformer.skill))"
+        sldStrength.value = Float(transformer.strength)
+        lblStrength.text = "Strength (\(transformer.strength))"
+        sldIntelligence.value = Float(transformer.intelligence)
+        lblIntelligence.text = "Intelligence (\(transformer.intelligence))"
+        sldSpeed.value = Float(transformer.speed)
+        lblSpeed.text = "Speed (\(transformer.speed))"
+        sldEndurance.value = Float(transformer.endurance)
+        lblEndurance.text = "Endurance (\(transformer.endurance))"
+        sldRank.value = Float(transformer.rank)
+        lblRank.text = "Rank (\(transformer.rank))"
+        sldCourage.value = Float(transformer.courage)
+        lblCourage.text = "Courage (\(transformer.courage))"
+        sldFirepower.value = Float(transformer.firepower)
+        lblFirepower.text = "Firepower (\(transformer.firepower))"
+        sldSkill.value = Float(transformer.skill)
+        lblSkill.text = "Skill (\(transformer.skill))"
         btnSubmit.setTitle("UPDATE", for: .normal)
     }
     

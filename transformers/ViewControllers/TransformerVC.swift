@@ -56,10 +56,7 @@ class TransformerVC: UIViewController {
                     return
                 }
                 
-                DispatchQueue.main.async {
-                    strongSelf.setStatusLabel()
-                    strongSelf.tblTransformers.reloadData()
-                }
+                strongSelf.reloadData()
             } else {
                 //TODO: - handle error scenario
             }
@@ -74,6 +71,7 @@ class TransformerVC: UIViewController {
         transformers = UtilManager.shared.getCachedTransformers()
         
         DispatchQueue.main.async {
+            self.setStatusLabel()
             self.tblTransformers.reloadData()
         }
     }
@@ -87,6 +85,7 @@ class TransformerVC: UIViewController {
     @IBAction func initiateFight(_ sender: UIButton) {
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let fightRingVC = mainStoryboard.instantiateViewController(withIdentifier: "FightRingVC") as! FightRingVC
+        fightRingVC.transformers = transformers
         navigationController?.pushViewController(fightRingVC, animated: true)
     }
 }
@@ -116,9 +115,16 @@ extension TransformerVC: UITableViewDataSource {
                         return
                     }
                     
+                    strongSelf.reloadData()
+                } else if error == nil {
+                    guard let strongSelf = self else {
+                        return
+                    }
+                    
                     DispatchQueue.main.async {
-                        strongSelf.setStatusLabel()
-                        strongSelf.tblTransformers.reloadData()
+                        strongSelf.transformers.remove(at: indexPath.row)
+                        UtilManager.shared.saveTransformers(strongSelf.transformers)
+                        strongSelf.tblTransformers.deleteRows(at: [indexPath], with: .automatic)
                     }
                 } else {
                     //TODO: - handle error scenario

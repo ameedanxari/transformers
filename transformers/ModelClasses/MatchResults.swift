@@ -9,9 +9,14 @@
 import Foundation
 
 struct MatchResults {
-    var op1: Transformer
-    var op2: Transformer
-    var status: String
-    var winner: Transformer?
-    var tied: Bool = false
+    var autobot: Transformer
+    var decepticon: Transformer
+    var isAutobotWinner: Bool?
+}
+
+struct BattleStats {
+    var autobotWins: Int
+    var decepticonWins: Int
+    var survivorsText: String
+    var resultTitle: String
 }

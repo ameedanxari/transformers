@@ -18,22 +18,31 @@ class FightResultTVCell: UITableViewCell {
     @IBOutlet weak var op2name: UILabel!
     @IBOutlet weak var op2status: UILabel!
     
-    func setValuesFor(object: MatchResults) {
-        op1img.setCustomImage(object.op1.team_icon)
-        op1name.text = object.op1.name
-        
-        op2img.setCustomImage(object.op2.team_icon)
-        op2name.text = object.op2.name
-        
-        if (object.tied){
-            op1status.text = "TIED"
-            op2status.text = "TIED"
+    func prepareUIFor(matchResult: MatchResults) {
+        if matchResult.isAutobotWinner == true {
+            op1img.setCustomImage(matchResult.autobot.team_icon)
+            op1name.text = matchResult.autobot.name
+            op1status.text = "WINNER"
+            
+            op2img.setCustomImage(matchResult.decepticon.team_icon)
+            op2name.text = matchResult.decepticon.name
+            op2status.text = "ELIMINATED"
+        } else if matchResult.isAutobotWinner == false {
+            op1img.setCustomImage(matchResult.decepticon.team_icon)
+            op1name.text = matchResult.decepticon.name
+            op1status.text = "WINNER"
+            
+            op2img.setCustomImage(matchResult.autobot.team_icon)
+            op2name.text = matchResult.autobot.name
+            op2status.text = "ELIMINATED"
         } else {
-            if (object.winner != nil) {
-                op1status.text = (object.winner!.id == object.op1.id) ? "WINNER" : "ELIMINATED"
-                op2status.text = (object.winner!.id == object.op2.id) ? "WINNER" : "ELIMINATED"
-            }
+            op1img.setCustomImage(matchResult.autobot.team_icon)
+            op1name.text = matchResult.autobot.name
+            op1status.text = "TIED"
+            
+            op2img.setCustomImage(matchResult.decepticon.team_icon)
+            op2name.text = matchResult.decepticon.name
+            op2status.text = "TIED"
         }
-        
     }
 }
